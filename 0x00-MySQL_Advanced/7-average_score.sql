@@ -3,10 +3,18 @@
 -- Note: An average score can be a decimal
 DELIMITER $$
 
-CREATE PROCEDURE ComputeAverageScoreForUser(IN user_id INT)
+CREATE PROCEDURE ComputeAverageScoreForUser(IN input_user_id INT)
 BEGIN
-    SELECT AVG(user_id)
-    FROM users;
+    DECLARE avg_score FLOAT;
+
+    SELECT AVG(score)
+    INTO avg_score
+    FROM corrections
+    WHERE user_id = input_user_id;
+
+    UPDATE users
+    SET average_score = avg_score
+    WHERE id = input_user_id;
 END $$
 
 DELIMITER;
