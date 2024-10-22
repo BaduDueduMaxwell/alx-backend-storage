@@ -1,2 +1,2 @@
 // Count
-print(db.school.countDocuments());
+db.school.count()
