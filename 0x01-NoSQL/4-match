@@ -1,2 +1,2 @@
 // All matches
-db.school.find( name: "Holberton school").forEach(printjson);
+db.school.find({ name: "Holberton school" }).forEach(printjson);
