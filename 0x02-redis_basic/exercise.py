@@ -7,7 +7,6 @@ import redis
 import uuid
 from typing import Union
 
-
 class Cache:
     def __init__(self):
         """Initialize the Cache class"""
@@ -26,5 +25,4 @@ class Cache:
         """
         key = str(uuid.uuid4())
         self._redis.set(key, data)
-        return random_uuid
         return key
