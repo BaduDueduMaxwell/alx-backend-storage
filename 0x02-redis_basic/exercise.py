@@ -42,7 +42,7 @@ class Cache:
         """
         data = self._redis.get(key)
         if data is not None and fn is not None:
-            returrn fn(data)
+            return fn(data)
         return data
 
     
