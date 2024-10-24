@@ -42,7 +42,7 @@ def call_history(method: Callable) -> Callable:
         in Redis lists.
         """
         input_key = method.__qualname__ + ":inputs"
-        output_keey = method.__qualname__ + ":outputs"
+        output_key = method.__qualname__ + ":outputs"
 
         self._redis.rpush(input_key, str(args))
 
@@ -61,6 +61,7 @@ class Cache:
         self._redis.flushdb()
 
     @count_calls
+    @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
         """
         Store data in Redis using a random key.
