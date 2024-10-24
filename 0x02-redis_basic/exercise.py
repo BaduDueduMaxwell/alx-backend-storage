@@ -22,10 +22,34 @@ def count_calls(method: Callable) -> Callable:
     @functools.wraps(method)
     def wrapper(self, *args, **kwargs):
         """
-        Wrapper function that increments the count each time the method is called.
+        Wrapper function that increments the
+        count each time the method is called.
         """
         self._redis.incr(method.__qualname__)
         return method(self, *args, **kwargs)
+
+    return wrapper
+
+
+def call_history(method: Callable) -> Callable:
+    """
+    Decorator to store the history of inputs and outputs for a function.
+    """
+    @functools.wraps(method)
+    def wrapper(self, *args, **kwargs):
+        """
+        Wrapper function that stores input arguments and output results
+        in Redis lists.
+        """
+        input_key = method.__qualname__ + ":inputs"
+        output_keey = method.__qualname__ + ":outputs"
+
+        self._redis.rpush(input_key, str(args))
+
+        result = method(self, *args, **kwargs)
+        self._redis.rpush(output_key, str(result))
+
+        return result
 
     return wrapper
 
